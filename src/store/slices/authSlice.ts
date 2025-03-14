@@ -22,11 +22,11 @@ const authSlice = createSlice({
     setCredentials: (
       state,
       action: PayloadAction<{
-        token: string;
+        access_token: string;
         user: { id: number; email: string };
       }>
     ) => {
-      state.token = action.payload.token;
+      state.token = action.payload.access_token;
       state.user = action.payload.user;
       state.isAuthenticated = true;
     },

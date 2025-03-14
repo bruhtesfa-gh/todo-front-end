@@ -1,8 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button, Link, TextField, Typography, Alert } from "@mui/material";
 import NextLink from "next/link";
-import { useRegisterMutation, useLoginMutation } from "@/store/api/authApi";
+import {
+  useRegisterMutation,
+  useLoginMutation,
+  useLazyMeQuery,
+} from "@/store/api/authApi";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "@/store/slices/authSlice";
 import { useRouter } from "next/navigation";
@@ -18,6 +22,7 @@ const Auth = () => {
     useRegisterMutation();
   const [login, { isLoading: isLoggingIn, error: loginError }] =
     useLoginMutation();
+  const [me, { isLoading: isMeLoading, error: meError }] = useLazyMeQuery();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,9 +31,11 @@ const Auth = () => {
         email: username,
         password: password,
       }).unwrap();
+      localStorage.setItem("authToken", result.access_token);
       dispatch(setCredentials(result));
-      router.push("/todos"); // Redirect to todos page after successful auth
+      router.push("/collections"); // Redirect to todos page after successful auth
     } catch (err) {
+      localStorage.removeItem("authToken");
       console.error("Failed to authenticate:", err);
     }
   };

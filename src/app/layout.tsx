@@ -8,6 +8,9 @@ import InitColorSchemeScript from "@mui/material/InitColorSchemeScript";
 import ModeSwitch from "@/components/ModeSwitch";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
+import AuthMiddleware from "@/components/layout/auth";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
@@ -19,9 +22,11 @@ export default function RootLayout(props: { children: React.ReactNode }) {
             <ThemeProvider theme={theme}>
               {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
               <CssBaseline />
-              <ModeSwitch />
+              {/* <ModeSwitch /> */}
 
-              {props.children}
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <AuthMiddleware>{props.children}</AuthMiddleware>
+              </LocalizationProvider>
             </ThemeProvider>
           </AppRouterCacheProvider>
         </Provider>
