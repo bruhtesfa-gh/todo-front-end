@@ -27,7 +27,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-
+import { useTheme } from "@mui/material/styles";
 interface Collection {
   id: string;
   name: string;
@@ -144,6 +144,7 @@ const CreateCollectionDialog = ({
 };
 
 const CollectionCard = ({ collection }: { collection: Collection }) => {
+  const theme = useTheme();
   const [updateCollection] = useUpdateCollectionMutation();
   const [deleteCollection] = useDeleteCollectionMutation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -192,7 +193,7 @@ const CollectionCard = ({ collection }: { collection: Collection }) => {
     <>
       <Box
         sx={{
-          bgcolor: "background.paper",
+          bgcolor: theme.palette.mode === "dark" ? "#1a202c" : "#f0f0f0",
           borderRadius: 2,
           p: 2,
           height: "100%",
@@ -359,11 +360,11 @@ export default function CollectionGrid({ view }: { view: "all" | "favorite" }) {
   return (
     <Grid container spacing={3}>
       {filteredCollections.map((collection) => (
-        <Grid item xs={12} sm={6} md={4} lg={3} key={collection.id}>
+        <Grid item xs={12} sm={6} md={4} lg={2} key={collection.id}>
           <CollectionCard collection={collection} />
         </Grid>
       ))}
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={6} md={4} lg={2}>
         <AddCollectionCard />
       </Grid>
     </Grid>

@@ -1,16 +1,47 @@
 "use client";
-import { Box, Container, Typography, IconButton } from "@mui/material";
+import {
+  Box,
+  Container,
+  Typography,
+  IconButton,
+  Menu,
+  MenuItem,
+  Divider,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LogoutIcon from "@mui/icons-material/Logout";
 import Link from "next/link";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import { useColorScheme } from "@mui/material/styles";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { useRouter } from "next/navigation";
 
 export default function TopNav() {
   const { mode, setMode } = useColorScheme();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const router = useRouter();
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    router.push("/");
+  };
+
   if (!mode) {
     return null;
   }
+
   return (
     <Container maxWidth="xl">
       <Box
@@ -38,7 +69,7 @@ export default function TopNav() {
           <IconButton color="primary">
             <AddIcon />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={handleMenuOpen}>
             <AccountCircleIcon />
           </IconButton>
           <IconButton
@@ -47,6 +78,34 @@ export default function TopNav() {
             <Brightness4Icon />
           </IconButton>
         </Box>
+
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+        >
+          <MenuItem onClick={handleMenuClose}>
+            <Typography variant="body2" color="text.secondary">
+              Signed in as
+            </Typography>
+          </MenuItem>
+          <MenuItem onClick={handleMenuClose}>
+            <Typography>{user?.email}</Typography>
+          </MenuItem>
+          <Divider />
+          <MenuItem onClick={handleLogout} sx={{ color: "error.main" }}>
+            <LogoutIcon sx={{ mr: 1, fontSize: 20 }} />
+            Logout
+          </MenuItem>
+        </Menu>
       </Box>
     </Container>
   );

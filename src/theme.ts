@@ -27,6 +27,24 @@ const theme = createTheme({
                 backgroundColor: "#60a5fa",
               },
             },
+            {
+              props: { severity: "success" },
+              style: {
+                backgroundColor: "#34d399",
+              },
+            },
+            {
+              props: { severity: "warning" },
+              style: {
+                backgroundColor: "#fbbf24",
+              },
+            },
+            {
+              props: { severity: "error" },
+              style: {
+                backgroundColor: "#f87171",
+              },
+            },
           ],
         },
       },
