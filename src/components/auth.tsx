@@ -12,7 +12,7 @@ import { setCredentials } from "@/store/slices/authSlice";
 import { useRouter } from "next/navigation";
 
 const Auth = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -22,7 +22,6 @@ const Auth = () => {
     useRegisterMutation();
   const [login, { isLoading: isLoggingIn, error: loginError }] =
     useLoginMutation();
-  const [me, { isLoading: isMeLoading, error: meError }] = useLazyMeQuery();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

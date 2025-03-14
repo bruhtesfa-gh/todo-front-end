@@ -35,7 +35,8 @@ export default function TopNav() {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
-    router.push("/");
+    // REMOVE all auth state from redux
+    window.location.href = "/";
   };
 
   if (!mode) {
