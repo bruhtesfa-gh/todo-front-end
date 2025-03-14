@@ -1,5 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { RootState } from "../store";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import baseApi from "./baseApi";
 
 export interface Collection {
   id: string;
@@ -18,16 +18,7 @@ interface UpdateCollectionRequest {
 
 export const collectionsApi = createApi({
   reducerPath: "collectionsApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8000",
-    prepareHeaders: (headers, { getState }) => {
-      const tokenFromLocalStorage = localStorage.getItem("authToken");
-      if (tokenFromLocalStorage) {
-        headers.set("authorization", `Bearer ${tokenFromLocalStorage}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: baseApi,
   tagTypes: ["Collection"],
   endpoints: (builder) => ({
     getCollections: builder.query<Collection[], void>({

@@ -22,20 +22,13 @@ import {
   useUpdateCollectionMutation,
   useAddCollectionMutation,
   useDeleteCollectionMutation,
+  Collection,
 } from "@/store/api/collectionsApi";
 import { useState } from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useTheme } from "@mui/material/styles";
-interface Collection {
-  id: string;
-  name: string;
-  image: string;
-  tasksCompleted: number;
-  totalTasks: number;
-  isFavorite: boolean;
-}
 
 interface EditCollectionDialogProps {
   open: boolean;

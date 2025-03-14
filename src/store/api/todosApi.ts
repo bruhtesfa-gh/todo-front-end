@@ -1,5 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { RootState } from "../store";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import baseApi from "./baseApi";
 
 export interface Todo {
   id: number;
@@ -25,16 +25,7 @@ interface AddTodoRequest {
 
 export const todosApi = createApi({
   reducerPath: "todosApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8000",
-    prepareHeaders: (headers, { getState }) => {
-      const tokenFromLocalStorage = localStorage.getItem("authToken");
-      if (tokenFromLocalStorage) {
-        headers.set("authorization", `Bearer ${tokenFromLocalStorage}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: baseApi,
   tagTypes: ["Todo"],
   endpoints: (builder) => ({
     getCollectionTodos: builder.query<Todo[], string>({
