@@ -24,9 +24,7 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: |
-          rm -rf package-lock.json
-          npm ci
+        run: npm ci
 
       - name: Check types
         run: npm run type-check
